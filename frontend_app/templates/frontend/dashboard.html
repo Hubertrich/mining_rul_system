@@ -1,1 +1,260 @@
-<h1>Frontend Dashboard is Live 🚀</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Command — Operations Dashboard</title>
+  <!--
+    Django setup notes:
+    - extend base template
+    - load static files
+    - replace local CSS link with Django static path
+-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dashboard-body">
+  <!-- Django template block content wrapper goes here if using inheritance -->
+
+  <div class="app-shell d-flex min-vh-100">
+    <!-- Primary navigation: replace placeholder links with Django URL routing -->
+    <aside class="sidebar flex-shrink-0 d-flex flex-column" aria-label="Main navigation">
+      <div class="sidebar-brand px-3 py-4 border-bottom border-secondary border-opacity-25">
+        <a class="sidebar-brand-link text-decoration-none d-flex align-items-center gap-2" href="#">
+          <span class="sidebar-brand-mark" aria-hidden="true"></span>
+          <div>
+            <span class="sidebar-brand-title d-block">Asset Command</span>
+            <span class="sidebar-brand-sub d-block small">Mining operations</span>
+          </div>
+        </a>
+      </div>
+      <nav class="sidebar-nav flex-grow-1 px-2 py-3" aria-label="Application">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item">
+            <a class="nav-link sidebar-link active" href="#" aria-current="page">
+              <span class="sidebar-link-icon" aria-hidden="true"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sidebar-link" href="#">
+              <span class="sidebar-link-icon" aria-hidden="true"></span>
+              Assets
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sidebar-link" href="#">
+              <span class="sidebar-link-icon" aria-hidden="true"></span>
+              Maintenance
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sidebar-link" href="#">
+              <span class="sidebar-link-icon" aria-hidden="true"></span>
+              Sensor Analytics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sidebar-link" href="#">
+              <span class="sidebar-link-icon" aria-hidden="true"></span>
+              Reports
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer px-3 py-3 small text-secondary border-top border-secondary border-opacity-25 d-none d-lg-block">
+        <!-- Django: optional env/build tag -->
+        <span class="text-uppercase tracking-tight">Fleet sync</span> · OK
+      </div>
+    </aside>
+
+    <div class="app-main flex-grow-1 d-flex flex-column min-vh-100">
+      <header class="top-navbar border-bottom shadow-sm sticky-top">
+        <div class="container-fluid py-2 px-3 px-lg-4">
+          <div class="row g-2 g-lg-3 align-items-center">
+            <div class="col-auto d-lg-none">
+              <button class="btn btn-outline-secondary btn-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas" aria-label="Open menu">
+                <span class="navbar-toggler-icon-custom" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="col min-w-0">
+              <form class="top-search" role="search" aria-label="Site search">
+                <label for="dashboard-search" class="visually-hidden">Search assets, work orders, or tags</label>
+                <div class="input-group input-group-sm input-group-lg-md">
+                  <span class="input-group-text border-end-0 bg-transparent text-secondary" id="search-addon" aria-hidden="true">⌕</span>
+                  <input type="search" id="dashboard-search" class="form-control border-start-0" placeholder="Search assets, work orders, tags…" aria-describedby="search-addon">
+                </div>
+              </form>
+            </div>
+            <div class="col-auto">
+              <div class="d-flex align-items-center gap-2 gap-md-3">
+                <button type="button" class="btn btn-icon btn-light border position-relative" aria-label="Notifications">
+                  <span class="notif-bell" aria-hidden="true"></span>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark notif-badge">3</span>
+                </button>
+                <div class="dropdown">
+                  <button class="btn btn-light border d-flex align-items-center gap-2 py-1 px-2 ps-md-2 pe-md-3 rounded-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
+                    <span class="avatar" aria-hidden="true">OP</span>
+                    <span class="d-none d-md-inline text-start lh-sm">
+                      <span class="d-block small fw-semibold text-body">Operator</span>
+                      <span class="d-block extra-small text-secondary">Site lead</span>
+                    </span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Preferences</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-content flex-grow-1" id="main-content">
+        <div class="container-fluid py-4 px-3 px-lg-4">
+          <header class="page-intro mb-4">
+            <h1 class="h4 page-title mb-1">Operations dashboard</h1>
+            <p class="text-secondary mb-0 small">Industrial asset health, risk, and maintenance signals in one view.</p>
+          </header>
+
+          <!-- KPI row 1: pass context from Django views -->
+          <section class="mb-4" aria-labelledby="kpi-primary-heading">
+            <h2 id="kpi-primary-heading" class="visually-hidden">Primary key performance indicators</h2>
+            <div class="row g-3">
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Remaining useful life</p>
+                    <p class="card-kpi-value mb-0"><span class="tabular-nums">{{ rul_days }}</span> <span class="fs-6 fw-normal text-secondary">days</span></p>
+                  </div>
+                </article>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Equipment health score</p>
+                    <p class="card-kpi-value mb-0"><span class="tabular-nums">{{ health_score }}</span></p>
+                  </div>
+                </article>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Failure risk level</p>
+                    <p class="card-kpi-value mb-0 text-capitalize">{{ failure_risk }}</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <!-- KPI row 2 -->
+          <section class="mb-4" aria-labelledby="kpi-secondary-heading">
+            <h2 id="kpi-secondary-heading" class="visually-hidden">Financial and maintenance indicators</h2>
+            <div class="row g-3">
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Current book value</p>
+                    <p class="card-kpi-value mb-0 tabular-nums">{{ book_value }}</p>
+                  </div>
+                </article>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Accumulated depreciation</p>
+                    <p class="card-kpi-value mb-0 tabular-nums">{{ depreciation_value }}</p>
+                  </div>
+                </article>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <article class="card card-dashboard h-100 shadow-sm">
+                  <div class="card-body">
+                    <p class="card-kpi-label text-secondary small text-uppercase mb-2">Recommended maintenance</p>
+                    <p class="card-kpi-value card-kpi-value-sm mb-0">{{ maintenance_action }}</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <div class="row g-4 align-items-start">
+            <div class="col-lg-8">
+              <section class="card card-dashboard shadow-sm h-100" aria-labelledby="chart-heading">
+                <div class="card-header card-dashboard-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+                  <h2 id="chart-heading" class="h6 mb-0">Operational trend</h2>
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Chart range">
+                    <button type="button" class="btn btn-outline-secondary active" data-chart-range="7d">7d</button>
+                    <button type="button" class="btn btn-outline-secondary" data-chart-range="30d">30d</button>
+                    <button type="button" class="btn btn-outline-secondary" data-chart-range="90d">90d</button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="ratio ratio-21x9 chart-wrap">
+                    <canvas id="operationalTrendChart" aria-label="Line chart of operational trend over time" role="img"></canvas>
+                  </div>
+                  <p class="small text-secondary mb-0 mt-2">Placeholder series; replace with API-fed datasets in <code class="small">dashboard.js</code> or Django JSON endpoints.</p>
+                </div>
+              </section>
+            </div>
+
+            <div class="col-lg-4">
+              <aside class="d-flex flex-column gap-3" aria-label="Alerts and reports">
+                <section class="card card-dashboard shadow-sm">
+                  <div class="card-header card-dashboard-header">
+                    <h2 class="h6 mb-0">Anomaly reports</h2>
+                  </div>
+                  <ul class="list-group list-group-flush list-panel" id="anomaly-reports">
+                    <!-- anomaly reports loop goes here -->
+                  </ul>
+                </section>
+                <section class="card card-dashboard shadow-sm">
+                  <div class="card-header card-dashboard-header d-flex align-items-center justify-content-between">
+                    <h2 class="h6 mb-0">Alerts</h2>
+                    <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle">Live</span>
+                  </div>
+                  <ul class="list-group list-group-flush list-panel" id="alerts-list"></ul>
+                </section>
+                <section class="card card-dashboard shadow-sm">
+                  <div class="card-header card-dashboard-header">
+                    <h2 class="h6 mb-0">Maintenance warnings</h2>
+                  </div>
+                  <ul class="list-group list-group-flush list-panel" id="maintenance-warnings"></ul>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile sidebar duplicate for offcanvas (same links as desktop sidebar) -->
+  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header border-bottom border-secondary">
+      <h2 class="h5 offcanvas-title" id="sidebarOffcanvasLabel">Asset Command</h2>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <nav class="px-2 py-3" aria-label="Mobile application">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item"><a class="nav-link text-white-50 active" href="#">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link text-white-50" href="#">Assets</a></li>
+          <li class="nav-item"><a class="nav-link text-white-50" href="#">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link text-white-50" href="#">Sensor Analytics</a></li>
+          <li class="nav-item"><a class="nav-link text-white-50" href="#">Reports</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+  <!-- Replace with Django static JS path -->
+  <script src="dashboard.js"></script>
+</body>
+</html>
