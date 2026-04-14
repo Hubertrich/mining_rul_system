@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Selection — Industrial Asset Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'frontend/css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'frontend/css/select-asset.css' %}">
+</head>
+<body class="dashboard-body">
+  <div class="dashboard-shell d-flex min-vh-100">
+    <aside class="sidebar d-flex flex-column flex-shrink-0">
+      <div class="sidebar-brand px-3 py-4 border-bottom">
+        <h1 class="h6 fw-bold text-uppercase mb-1">CHPP Predictive Asset Health</h1>
+        <p class="small text-secondary mb-0">Plant Management</p>
+      </div>
+
+      <nav class="px-2 py-3">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item"><a class="nav-link sidebar-link" href="dashboard_2.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link active" href="select-asset.html" aria-current="page">Select Asset</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Equipment</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Maintenance</a></li>
+        </ul>
+      </nav>
+
+      <div class="mt-auto px-3 py-3 border-top">
+        <a class="sidebar-footer-link d-block mb-2" href="#">Settings</a>
+        <a class="sidebar-footer-link d-block" href="#">Support</a>
+      </div>
+    </aside>
+
+    <div class="main-panel flex-grow-1">
+      <header class="topbar border-bottom bg-white">
+        <div class="container-fluid py-3 px-3 px-lg-4">
+          <div class="row align-items-center g-3">
+            <div class="col-md-8">
+              <div class="input-group search-group">
+                <span class="input-group-text bg-transparent border-end-0">
+                  <span aria-hidden="true">&#128269;</span>
+                </span>
+                <input type="search" class="form-control border-start-0" placeholder="Search assets..." aria-label="Search assets">
+              </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <span class="badge rounded-pill text-bg-light border me-2">Alerts 3</span>
+              <span class="badge rounded-pill text-bg-light border">User Ops Lead</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <div class="container-fluid py-4 px-3 px-lg-4">
+          <section class="mb-4">
+            <h2 class="display-6 fw-bold mb-2">Asset Selection</h2>
+            <p class="text-secondary mb-0">Choose an equipment asset to load health KPIs and predictive analytics into the main dashboard</p>
+          </section>
+
+          <section class="card panel-card mb-4 asset-filters-card">
+            <div class="card-body">
+              <div class="row g-3 align-items-end">
+                <div class="col-lg-4 col-md-6">
+                  <label for="filterSearch" class="form-label asset-filter-label">Search equipment</label>
+                  <input type="search" id="filterSearch" class="form-control asset-filter-control" placeholder="ID or name..." autocomplete="off" aria-label="Filter by equipment ID or name">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <label for="filterType" class="form-label asset-filter-label">Equipment type</label>
+                  <select id="filterType" class="form-select asset-filter-control" aria-label="Filter by equipment type">
+                    <option value="">All types</option>
+                  </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <label for="filterStatus" class="form-label asset-filter-label">Status</label>
+                  <select id="filterStatus" class="form-select asset-filter-control" aria-label="Filter by health status">
+                    <option value="">All status</option>
+                    <option value="healthy">Healthy</option>
+                    <option value="warning">Warning</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                  <button type="button" class="btn btn-accent w-100" data-bs-toggle="modal" data-bs-target="#modalAddAsset">+ Add new asset</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card panel-card mb-4">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover asset-table mb-0" aria-label="Equipment assets">
+                  <thead>
+                    <tr>
+                      <th scope="col">Equipment ID</th>
+                      <th scope="col">Asset name</th>
+                      <th scope="col">Equipment type</th>
+                      <th scope="col">Plant / location</th>
+                      <th scope="col">Health score</th>
+                      <th scope="col">RUL</th>
+                      <th scope="col">Last maintenance</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="assetTableBody"></tbody>
+                </table>
+              </div>
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 px-3 py-3 border-top">
+                <p class="small text-secondary mb-0 asset-count-label" id="assetCountLabel">Showing 0 of 0 assets</p>
+              </div>
+            </div>
+          </section>
+
+          <div class="asset-info-banner d-flex align-items-start gap-3" role="status">
+            <span class="asset-info-icon" aria-hidden="true">i</span>
+            <p class="mb-0">Selected asset will populate KPI cards, trend charts, and prediction metrics on the main dashboard</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add asset -->
+  <div class="modal fade" id="modalAddAsset" tabindex="-1" aria-labelledby="modalAddAssetLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content asset-modal">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="modalAddAssetLabel">Add new asset</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <form id="formAddAsset">
+            <div class="mb-3">
+              <label class="form-label" for="addEquipmentId">Equipment ID</label>
+              <input type="text" class="form-control" id="addEquipmentId" required maxlength="32" placeholder="e.g. CHPP-CF-100">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="addAssetName">Asset name</label>
+              <input type="text" class="form-control" id="addAssetName" required maxlength="120" placeholder="Display name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="addEquipmentType">Equipment type</label>
+              <input type="text" class="form-control" id="addEquipmentType" required maxlength="80" placeholder="e.g. Industrial centrifuge">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="addLocation">Plant / location</label>
+              <input type="text" class="form-control" id="addLocation" required maxlength="80" placeholder="e.g. Plant unit 04">
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label" for="addHealth">Health score %</label>
+                <input type="number" class="form-control" id="addHealth" min="0" max="100" value="85" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="addRul">RUL (hours)</label>
+                <input type="number" class="form-control" id="addRul" min="0" value="500" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="addLastMaint">Last maintenance date</label>
+              <input type="date" class="form-control" id="addLastMaint" required>
+            </div>
+            <div class="mb-0">
+              <label class="form-label" for="addStatus">Status</label>
+              <select class="form-select" id="addStatus" required>
+                <option value="healthy">Healthy</option>
+                <option value="warning">Warning</option>
+                <option value="critical">Critical</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="formAddAsset" class="btn btn-primary-industrial">Save asset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit asset -->
+  <div class="modal fade" id="modalEditAsset" tabindex="-1" aria-labelledby="modalEditAssetLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content asset-modal">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="modalEditAssetLabel">Edit asset</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <form id="formEditAsset">
+            <input type="hidden" id="editId">
+            <div class="mb-3">
+              <label class="form-label" for="editEquipmentId">Equipment ID</label>
+              <input type="text" class="form-control" id="editEquipmentId" required maxlength="32">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="editAssetName">Asset name</label>
+              <input type="text" class="form-control" id="editAssetName" required maxlength="120">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="editEquipmentType">Equipment type</label>
+              <input type="text" class="form-control" id="editEquipmentType" required maxlength="80">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="editLocation">Plant / location</label>
+              <input type="text" class="form-control" id="editLocation" required maxlength="80">
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label" for="editHealth">Health score %</label>
+                <input type="number" class="form-control" id="editHealth" min="0" max="100" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="editRul">RUL (hours)</label>
+                <input type="number" class="form-control" id="editRul" min="0" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="editLastMaint">Last maintenance date</label>
+              <input type="date" class="form-control" id="editLastMaint" required>
+            </div>
+            <div class="mb-0">
+              <label class="form-label" for="editStatus">Status</label>
+              <select class="form-select" id="editStatus" required>
+                <option value="healthy">Healthy</option>
+                <option value="warning">Warning</option>
+                <option value="critical">Critical</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="formEditAsset" class="btn btn-primary-industrial">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="{% static 'frontend/js/select-asset.js' %}"></script>
+</body>
+</html>
+
+

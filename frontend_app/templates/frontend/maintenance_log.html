@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maintenance Log Upload - Industrial Asset Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'frontend/css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'frontend/css/maintenance.css' %}">
+</head>
+<body class="dashboard-body">
+  <div class="dashboard-shell d-flex min-vh-100">
+    <aside class="sidebar d-flex flex-column flex-shrink-0">
+      <div class="sidebar-brand px-3 py-4 border-bottom">
+        <h1 class="h6 fw-bold text-uppercase mb-1">CHPP Predictive Asset Health</h1>
+        <p class="small text-secondary mb-0">Plant Management</p>
+      </div>
+
+      <nav class="px-2 py-3">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item"><a class="nav-link sidebar-link" href="../dashboard_2/dashboard_2.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="../select_asset/select-asset.html">Select Asset</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Equipment</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link active" href="maintenance.html" aria-current="page">Maintenance</a></li>
+        </ul>
+      </nav>
+
+      <div class="mt-auto px-3 py-3 border-top">
+        <a class="sidebar-footer-link d-block mb-2" href="#">Support</a>
+        <a class="sidebar-footer-link d-block" href="#">Logs</a>
+      </div>
+    </aside>
+
+    <div class="main-panel flex-grow-1">
+      <header class="topbar border-bottom bg-white">
+        <div class="container-fluid py-3 px-3 px-lg-4">
+          <div class="row align-items-center g-3">
+            <div class="col-md-8">
+              <div class="input-group search-group">
+                <span class="input-group-text bg-transparent border-end-0">
+                  <span aria-hidden="true">&#128269;</span>
+                </span>
+                <input type="search" class="form-control border-start-0" placeholder="Search assets..." aria-label="Search assets">
+              </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <span class="badge rounded-pill text-bg-light border me-2">Alerts 3</span>
+              <span class="badge rounded-pill text-bg-light border">User Ops Lead</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <div class="container-fluid py-4 px-3 px-lg-4">
+          <section class="mb-4">
+            <h2 class="display-6 fw-bold mb-2">Maintenance Log Upload</h2>
+            <p class="text-secondary mb-0">Upload maintenance datasets for preprocessing, anomaly detection, and predictive asset health analysis</p>
+          </section>
+
+          <section class="row g-3 align-items-stretch">
+            <div class="col-xxl-8">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <div id="uploadZone" class="upload-zone text-center" role="button" tabindex="0" aria-label="Upload ZIP folder">
+                    <div class="upload-icon-wrap mx-auto mb-3">
+                      <span class="upload-icon" aria-hidden="true">&#128193;</span>
+                    </div>
+                    <h3 class="h3 upload-title mb-2">Upload ZIP Folder</h3>
+                    <p class="upload-description mb-1">Please upload a .zip folder containing maintenance log CSV files</p>
+                    <p class="upload-helper mb-4">Accepted format: ZIP archive containing multiple CSV files</p>
+                    <label for="zipFileInput" class="btn btn-accent btn-lg px-4">Browse ZIP File</label>
+                    <input id="zipFileInput" class="d-none" type="file" accept=".zip,application/zip">
+                    <p class="upload-drag-text mt-3 mb-0">Drag and drop ZIP file here</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-xxl-4">
+              <article class="card latest-upload-card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h4 fw-bold mb-0">Latest Upload Summary</h3>
+                    <span class="badge text-bg-success rounded-pill">Ready</span>
+                  </div>
+
+                  <div class="summary-grid">
+                    <div>
+                      <p class="summary-label mb-1">Upload Timestamp</p>
+                      <p class="summary-value mb-0" id="uploadTimestamp">Oct 24, 2023 - 14:32:05 UTC</p>
+                    </div>
+                    <div>
+                      <p class="summary-label mb-1">CSV Files</p>
+                      <p class="summary-value mb-0" id="csvCount">12</p>
+                    </div>
+                    <div>
+                      <p class="summary-label mb-1">Total Records</p>
+                      <p class="summary-value mb-0" id="totalRecords">85,204</p>
+                    </div>
+                    <div>
+                      <p class="summary-label mb-1">Asset IDs Found</p>
+                      <p class="summary-value mb-0" id="assetIdsFound">CHPP-01, CHPP-02, PUMP-08</p>
+                    </div>
+                    <div>
+                      <p class="summary-label mb-1">Preprocessing Status</p>
+                      <p class="summary-value mb-0" id="preprocessStatus">Ready for processing</p>
+                    </div>
+                    <div>
+                      <p class="summary-label mb-1">Upload Success</p>
+                      <p class="summary-value success-text mb-0" id="uploadSuccess">100% Complete</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="row g-3 mt-1">
+            <div class="col-xl-8">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <div class="info-header d-flex align-items-center gap-2 mb-3">
+                    <span class="info-dot" aria-hidden="true">i</span>
+                    <h4 class="h6 mb-0 text-uppercase fw-bold">ZIP Structure Example</h4>
+                  </div>
+                  <div class="small text-secondary mb-3">maintenance_logs.zip</div>
+                  <div class="row g-2">
+                    <div class="col-md-6">
+                      <div class="zip-item">asset_master.csv</div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="zip-item">maintenance_history.csv</div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="zip-item">sensor_temperature.csv</div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="zip-item">sensor_vibration.csv</div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="zip-item">operating_hours.csv</div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-xl-4">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <h4 class="h6 text-uppercase fw-bold mb-3 workflow-title">System Alerts</h4>
+                  <div class="alert-item">
+                    Large dataset detected. Processing may take up to 5 minutes.
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="card panel-card mt-3">
+            <div class="card-body">
+              <h4 class="h6 text-uppercase fw-bold mb-3 workflow-title">Preprocessing Workflow Status</h4>
+              <div class="row g-2 g-lg-3 workflow-row">
+                <div class="col">
+                  <div class="workflow-box complete">File Validation</div>
+                </div>
+                <div class="col">
+                  <div class="workflow-box complete">CSV Extraction</div>
+                </div>
+                <div class="col">
+                  <div class="workflow-box active">Data Cleaning</div>
+                </div>
+                <div class="col">
+                  <div class="workflow-box">Feature Engineering</div>
+                </div>
+                <div class="col">
+                  <div class="workflow-box">Ready for Prediction</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="d-flex flex-wrap gap-2 mt-4">
+            <button type="button" class="btn btn-primary-industrial btn-lg">Run Preprocessing</button>
+            <button type="button" class="btn btn-accent btn-lg">Continue to Prediction</button>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="{% static 'frontend/js/maintenance.js' %} "></script>
+</body>
+</html>

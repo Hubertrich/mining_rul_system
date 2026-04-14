@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equipment Management — Register Equipment</title>
+  <!--
+    Django note:
+    extend base template and load static files here when template inheritance is used.
+    include CSS from static/frontend/css/equipment-registration.css
+  -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'frontend/css/assets.css' %}">
+</head>
+<body class="eqreg-body">
+  <!-- Django note: wrap this section inside base template content block later -->
+
+  <div class="app-shell d-flex min-vh-100">
+    <!--
+      Primary app directory:
+      replace placeholder href values with Django named routes later
+
+      Route map:
+      - Dashboard -> main KPI dashboard
+      - Select Asset -> asset list / active selector
+      - Equipment -> registration page
+      - Maintenance -> maintenance upload page
+      - Settings -> future config page
+    -->
+    <aside class="eqreg-sidebar flex-shrink-0 d-flex flex-column" aria-label="Main navigation">
+      <div class="eqreg-sidebar-user px-3 py-4 border-bottom border-dark border-opacity-10">
+        <p class="eqreg-sidebar-user-name mb-0 fw-bold text-dark">Plant Manager</p>
+        <p class="eqreg-sidebar-user-site mb-0 small text-secondary">Facility A — CHPP</p>
+      </div>
+      <nav class="eqreg-sidebar-nav flex-grow-1 px-2 py-3" aria-label="Application">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item">
+            <a class="nav-link eqreg-nav-link" href="#">
+              <span class="eqreg-nav-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z" stroke="currentColor" stroke-width="1.5"/></svg>
+              </span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link eqreg-nav-link" href="#">
+              <span class="eqreg-nav-icon eqreg-nav-icon--placeholder" aria-hidden="true" title="Placeholder icon"></span>
+              Select Asset
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link eqreg-nav-link active" href="#" aria-current="page">
+              <span class="eqreg-nav-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              Equipment
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link eqreg-nav-link" href="#">
+              <span class="eqreg-nav-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.35 6.35a1 1 0 01-3-3l6.35-6.35a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              Maintenance
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link eqreg-nav-link" href="#">
+              <span class="eqreg-nav-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.5"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.14.31.22.65.22 1v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.5"/></svg>
+              </span>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="eqreg-main flex-grow-1 d-flex flex-column min-vh-100">
+      <header class="eqreg-topbar border-bottom bg-white shadow-sm sticky-top">
+        <div class="container-fluid py-2 px-3 px-lg-4">
+          <div class="row align-items-center g-2">
+            <div class="col-auto d-lg-none">
+              <button class="btn btn-outline-secondary eqreg-btn-icon rounded-circle" type="button" data-bs-toggle="offcanvas" data-bs-target="#eqregSidebarOffcanvas" aria-controls="eqregSidebarOffcanvas" aria-label="Open menu">
+                <span class="eqreg-hamburger" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="col min-w-0">
+              <a class="eqreg-brand text-decoration-none d-inline-flex align-items-center gap-2" href="#">
+                <span class="eqreg-brand-mark" aria-hidden="true"></span>
+                <span class="eqreg-brand-title fw-bold text-dark">Equipment Management</span>
+              </a>
+            </div>
+            <div class="col-auto">
+              <div class="d-flex align-items-center gap-2">
+                <!-- Future: notifications panel route -->
+                <button type="button" class="btn btn-light border eqreg-btn-icon rounded-circle text-secondary" aria-label="Notifications">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 7h18s-3 0-3-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+                <!-- Future: user profile / account route -->
+                <button type="button" class="btn btn-light border eqreg-btn-icon rounded-circle text-secondary" aria-label="User profile">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="eqreg-content flex-grow-1" id="main-content">
+        <div class="container-fluid py-4 px-3 px-lg-4">
+          <div class="row g-4 align-items-start">
+            <div class="col-xl-8 col-lg-7">
+              <p class="eqreg-breadcrumb text-secondary text-uppercase small mb-2 mb-lg-3">Asset management &gt; Equipment registration</p>
+              <h1 class="h3 fw-bold text-dark mb-2">Register new equipment</h1>
+              <p class="text-secondary mb-4">Capture asset metadata and baseline telemetry to onboard equipment into the registry. This form is for registration and setup only — not for running predictions.</p>
+
+              <!--
+                Django note:
+                bind form fields to ModelForm later.
+                add route action and CSRF token when backend submission is ready.
+              -->
+              <div class="card eqreg-form-card border-0 shadow-sm">
+                <div class="card-body p-4">
+                  <form class="eqreg-form" id="equipment-registration-form" novalidate>
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label for="equipment-id" class="form-label eqreg-label text-uppercase small">Equipment ID</label>
+                        <input type="text" class="form-control" id="equipment-id" name="equipment_id" placeholder="e.g. EQ-7829-G" autocomplete="off">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="equipment-type" class="form-label eqreg-label text-uppercase small">Equipment type</label>
+                        <select class="form-select" id="equipment-type" name="equipment_type">
+                          <option value="" selected disabled>Select equipment category</option>
+                          <option value="pump">Pump</option>
+                          <option value="motor">Motor</option>
+                          <option value="compressor">Compressor</option>
+                          <option value="conveyor">Conveyor</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="operating-hours" class="form-label eqreg-label text-uppercase small">Operating hours (h)</label>
+                        <input type="number" class="form-control" id="operating-hours" name="operating_hours" placeholder="4500" inputmode="decimal" step="any" min="0">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="load-percentage" class="form-label eqreg-label text-uppercase small">Load percentage (%)</label>
+                        <input type="number" class="form-control" id="load-percentage" name="load_percentage" placeholder="78.5" inputmode="decimal" step="any" min="0" max="100">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="temperature" class="form-label eqreg-label text-uppercase small">Temperature (°C)</label>
+                        <input type="number" class="form-control" id="temperature" name="temperature" placeholder="62" inputmode="decimal" step="any">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="vibration" class="form-label eqreg-label text-uppercase small">Vibration (mm/s)</label>
+                        <input type="number" class="form-control" id="vibration" name="vibration" placeholder="2.4" inputmode="decimal" step="any" min="0">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="failure-code" class="form-label eqreg-label text-uppercase small">Known failure code <span class="text-secondary fw-normal text-lowercase">(optional)</span></label>
+                        <input type="text" class="form-control" id="failure-code" name="failure_code" placeholder="F-102" autocomplete="off">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="last-maintenance" class="form-label eqreg-label text-uppercase small">Last maintenance date</label>
+                        <div class="input-group">
+                          <input type="date" class="form-control border-end-0" id="last-maintenance" name="last_maintenance_date" aria-describedby="last-maintenance-addon">
+                          <span class="input-group-text bg-white text-secondary" id="last-maintenance-addon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <section class="eqreg-details-note mt-4 pt-4 border-top" aria-labelledby="eqreg-details-heading">
+                    <h2 id="eqreg-details-heading" class="h6 fw-bold text-dark mb-2">Equipment Registration Details</h2>
+                    <p class="small text-secondary mb-0">Registered assets appear in the asset directory and can be selected for dashboard views. Baseline values may be revised when maintenance logs are ingested through the maintenance module.</p>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-5">
+              <aside class="d-flex flex-column gap-3" aria-label="Status and activity">
+                <section class="card eqreg-status-card border-0 shadow-sm overflow-hidden">
+                  <div class="eqreg-status-accent" aria-hidden="true"></div>
+                  <div class="card-body p-4 position-relative">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                      <h2 class="h6 text-uppercase text-secondary mb-0 fw-semibold tracking-tight">System status</h2>
+                      <span class="text-secondary" aria-hidden="true" title="Information">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                    <p class="small text-secondary mb-3 mb-md-4">Equipment registration module online. Required fields and unit consistency will be enforced when the registry API is connected.</p>
+                    <p class="small mb-0 d-flex align-items-center gap-2">
+                      <span class="eqreg-status-dot" aria-hidden="true"></span>
+                      <span class="fw-semibold text-success text-uppercase small">Engine ready</span>
+                    </p>
+                  </div>
+                </section>
+
+                <section class="card eqreg-activity-card border-0 shadow-sm overflow-hidden">
+                  <div class="eqreg-activity-header position-relative">
+                    <h2 class="h6 text-white position-relative z-1 mb-0 px-3 py-4">Recent Activity</h2>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item eqreg-activity-item d-flex justify-content-between align-items-start gap-2">
+                      <div class="d-flex gap-2 min-w-0">
+                        <span class="eqreg-activity-dot eqreg-activity-dot--ok flex-shrink-0 mt-1" aria-hidden="true"></span>
+                        <span class="small"><span class="fw-semibold text-dark">EQ-9021</span> Registered</span>
+                      </div>
+                      <span class="small text-secondary text-uppercase flex-shrink-0">2 mins ago</span>
+                    </li>
+                    <li class="list-group-item eqreg-activity-item d-flex justify-content-between align-items-start gap-2">
+                      <div class="d-flex gap-2 min-w-0">
+                        <span class="eqreg-activity-dot eqreg-activity-dot--alert flex-shrink-0 mt-1" aria-hidden="true"></span>
+                        <span class="small"><span class="fw-semibold text-dark">EQ-4412</span> Metadata update</span>
+                      </div>
+                      <span class="small text-secondary text-uppercase flex-shrink-0">14 mins ago</span>
+                    </li>
+                  </ul>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-start eqreg-offcanvas" tabindex="-1" id="eqregSidebarOffcanvas" aria-labelledby="eqregSidebarOffcanvasLabel">
+    <div class="offcanvas-header border-bottom">
+      <h2 class="h5 offcanvas-title" id="eqregSidebarOffcanvasLabel">Menu</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <div class="px-3 py-3 border-bottom">
+        <p class="mb-0 fw-bold">Plant Manager</p>
+        <p class="mb-0 small text-secondary">Facility A — CHPP</p>
+      </div>
+      <nav class="px-2 py-3" aria-label="Mobile application">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item"><a class="nav-link eqreg-nav-link eqreg-nav-link--mobile" href="#">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link eqreg-nav-link eqreg-nav-link--mobile" href="#">Select Asset</a></li>
+          <li class="nav-item"><a class="nav-link eqreg-nav-link eqreg-nav-link--mobile active" href="#" aria-current="page">Equipment</a></li>
+          <li class="nav-item"><a class="nav-link eqreg-nav-link eqreg-nav-link--mobile" href="#">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link eqreg-nav-link eqreg-nav-link--mobile" href="#">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <!-- Django note: JS file loaded from static/frontend/js/assets.js -->
+  <script src="{% static 'frontend/js/assets.js' %}"></script>
+</body>
+</html>
