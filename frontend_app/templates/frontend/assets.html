@@ -28,53 +28,78 @@
       - Maintenance -> maintenance upload page
       - Settings -> future config page
     -->
-    <aside class="eqreg-sidebar flex-shrink-0 d-flex flex-column" aria-label="Main navigation">
-      <div class="eqreg-sidebar-user px-3 py-4 border-bottom border-dark border-opacity-10">
-        <p class="eqreg-sidebar-user-name mb-0 fw-bold text-dark">Plant Manager</p>
-        <p class="eqreg-sidebar-user-site mb-0 small text-secondary">Facility A — CHPP</p>
-      </div>
-      <nav class="eqreg-sidebar-nav flex-grow-1 px-2 py-3" aria-label="Application">
-        <ul class="nav flex-column gap-1">
-          <li class="nav-item">
-            <a class="nav-link eqreg-nav-link" href="#">
-              <span class="eqreg-nav-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z" stroke="currentColor" stroke-width="1.5"/></svg>
-              </span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link eqreg-nav-link" href="#">
-              <span class="eqreg-nav-icon eqreg-nav-icon--placeholder" aria-hidden="true" title="Placeholder icon"></span>
-              Select Asset
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link eqreg-nav-link active" href="#" aria-current="page">
-              <span class="eqreg-nav-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </span>
-              Equipment
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link eqreg-nav-link" href="#">
-              <span class="eqreg-nav-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.35 6.35a1 1 0 01-3-3l6.35-6.35a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </span>
-              Maintenance
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link eqreg-nav-link" href="#">
-              <span class="eqreg-nav-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="eqreg-svg-icon"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.5"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.14.31.22.65.22 1v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.5"/></svg>
-              </span>
-              Settings
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <aside class="sidebar d-flex flex-column flex-shrink-0">
+  <div class="sidebar-brand px-3 py-4 border-bottom">
+    <h1 class="h6 fw-bold text-uppercase mb-1">CHPP Predictive Asset Management</h1>
+    <p class="small text-secondary mb-0">Plant Management</p>
+  </div>
+
+  <nav class="px-2 py-3">
+    <ul class="nav flex-column gap-1">
+
+      <li class="nav-item">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" href="{% url 'frontend:dashboard' %}">
+          <span class="sidebar-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7"
+                    stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          Dashboard
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" href="{% url 'frontend:select_asset' %}">
+          <span class="sidebar-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linejoin="round"/>
+            </svg>
+          </span>
+          Select Asset
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link sidebar-link active d-flex align-items-center gap-2" href="{% url 'frontend:assets' %}" aria-current="page">
+          <span class="sidebar-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linejoin="round"/>
+              <path d="M9 12l2 2 4-4"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round"/>
+            </svg>
+          </span>
+          Equipment
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" href="{% url 'frontend:maintenance_logs' %}">
+          <span class="sidebar-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77
+                       a6 6 0 01-7.94 7.94l-6.35 6.35a1 1 0 01-3-3l6.35-6.35
+                       a6 6 0 017.94-7.94l-3.76 3.76z"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round"/>
+            </svg>
+          </span>
+          Maintenance Logs
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
     </aside>
 
     <div class="eqreg-main flex-grow-1 d-flex flex-column min-vh-100">
