@@ -20,8 +20,8 @@
         <ul class="nav flex-column gap-1">
           <li class="nav-item"><a class="nav-link sidebar-link active" href="#">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link sidebar-link" href="{% url 'frontend:assets' %}">Assets</a></li>
-          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Maintenance</a></li>
-          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Sensor Analytics</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Maintenance Schedule</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="{% url 'frontend:analysis_overview' %}">Analysis</a></li>
           <li class="nav-item"><a class="nav-link sidebar-link" href="#">Reports</a></li>
         </ul>
       </nav>
@@ -37,12 +37,6 @@
         <div class="container-fluid py-3 px-3 px-lg-4">
           <div class="row align-items-center g-3">
             <div class="col-md-8">
-              <div class="input-group search-group">
-                <span class="input-group-text bg-transparent border-end-0">
-                  <span aria-hidden="true">&#128269;</span>
-                </span>
-                <input type="search" class="form-control border-start-0" placeholder="Search assets..." aria-label="Search assets">
-              </div>
             </div>
             <div class="col-md-4 text-md-end">
               <span class="badge rounded-pill text-bg-light border me-2">Alerts {{ unread_alert_count }}</span>
@@ -55,7 +49,7 @@
       <main class="content-area">
         <div class="container-fluid py-4 px-3 px-lg-4">
           <section class="mb-4">
-            <h2 class="display-6 fw-bold mb-2">Asset Health Intelligence</h2>
+            <h2 class="display-6 fw-bold mb-2">CHPP Plant Overview</h2>
             <p class="text-secondary mb-0">Real-time predictive monitoring for industrial equipment and proactive intervention workflows.</p>
           </section>
 
@@ -63,7 +57,7 @@
             <div class="col-xl-4 col-md-6">
               <article class="card kpi-card kpi-card-accent h-100">
                 <div class="card-body">
-                  <p class="kpi-label mb-1">Remaining Useful Life (RUL)</p>
+                  <p class="kpi-label mb-1">AVERAGE PLANT RUL</p>
                   <h3 class="kpi-value mb-1">{{ rul_days }} Days</h3>
                   <p class="kpi-meta mb-0 text-danger">{{ rul_change_pct }} vs last month</p>
                 </div>
@@ -72,7 +66,7 @@
             <div class="col-xl-4 col-md-6">
               <article class="card kpi-card kpi-card-accent h-100">
                 <div class="card-body">
-                  <p class="kpi-label mb-1">Equipment Health Score</p>
+                  <p class="kpi-label mb-1">PLANT HEALTH SCORE</p>
                   <h3 class="kpi-value mb-1">{{ health_score }}%</h3>
                   <p class="kpi-meta mb-0">{{ health_state_label }}</p>
                 </div>
@@ -81,7 +75,7 @@
             <div class="col-xl-4 col-md-12">
               <article class="card kpi-card kpi-card-accent h-100">
                 <div class="card-body">
-                  <p class="kpi-label mb-1">Failure Risk Level</p>
+                  <p class="kpi-label mb-1">CRITICAL RISK ASSETS</p>
                   <h3 class="kpi-value mb-1">{{ failure_risk_level }}</h3>
                   <p class="kpi-meta mb-0">Probability {{ failure_probability }}</p>
                 </div>
@@ -93,7 +87,7 @@
             <div class="col-xl-4 col-md-6">
               <article class="card kpi-card h-100">
                 <div class="card-body">
-                  <p class="kpi-label mb-1">Current Book Value</p>
+                  <p class="kpi-label mb-1">TOTAL ASSET VALUE</p>
                   <h3 class="kpi-value mb-1">${{ current_book_value }}</h3>
                   <p class="kpi-meta mb-0">{{ value_change_note }}</p>
                 </div>

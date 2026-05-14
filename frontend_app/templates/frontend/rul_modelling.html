@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RUL Modelling - Analysis Module</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/rul_modelling.css' %}">
+</head>
+<body class="dashboard-body">
+  <div class="dashboard-shell d-flex min-vh-100">
+    <aside class="sidebar d-flex flex-column flex-shrink-0">
+      <div class="sidebar-brand px-3 py-4 border-bottom">
+        <h1 class="h6 fw-bold text-uppercase mb-1">Industrial Enterprise</h1>
+        <p class="small text-secondary mb-0">Asset Management</p>
+      </div>
+
+      <nav class="px-2 py-3">
+        <ul class="nav flex-column gap-1">
+          <li class="nav-item"><a class="nav-link sidebar-link" href="{% url 'frontend:dashboard' %}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="{% url 'frontend:analysis_overview' %}">Overview</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link active" href="{% url 'frontend:rul_modelling' %}" aria-current="page">RUL Modelling</a></li>
+          <li class="nav-item"><a class="nav-link sidebar-link" href="#">Depreciation Analysis</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="main-panel flex-grow-1">
+      <main class="content-area">
+        <div class="container-fluid py-4 px-3 px-lg-4">
+          <section class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+            <div>
+              <h1 class="display-6 fw-bold mb-2">RUL Analysis</h1>
+              <p class="text-secondary mb-0">Understand why this asset is predicted to fail</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm px-3">Export PDF</button>
+              <button type="button" class="btn btn-primary-industrial btn-sm px-3">Run Model</button>
+            </div>
+          </section>
+
+          <section class="card panel-card mb-3">
+            <div class="card-body">
+              <div class="row g-3 align-items-end">
+                <div class="col-lg-5">
+                  <label for="assetSelector" class="rul-label form-label mb-1">Selected Asset</label>
+                  <select id="assetSelector" class="form-select rul-select" aria-label="Select analyzed asset"></select>
+                </div>
+                <div class="col-lg-7">
+                  <div class="row g-2">
+                    <div class="col-md-4">
+                      <div class="context-chip">
+                        <p class="context-label mb-1">Plant Location</p>
+                        <p class="context-value mb-0" id="assetPlant">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="context-chip">
+                        <p class="context-label mb-1">Equipment Type</p>
+                        <p class="context-value mb-0" id="assetType">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="context-chip">
+                        <p class="context-label mb-1">Last Analysis</p>
+                        <p class="context-value mb-0" id="assetLastAnalysis">-</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card panel-card mb-3">
+            <div class="card-body">
+              <div class="row g-3 align-items-center">
+                <div class="col-xl-3 col-md-4">
+                  <p class="rul-label mb-1">Remaining Useful Life</p>
+                  <p class="rul-main-value mb-0"><span id="rulDays">0</span> Days</p>
+                </div>
+                <div class="col-xl-3 col-md-4">
+                  <p class="rul-label mb-1">Model Confidence</p>
+                  <p class="rul-secondary-value mb-0"><span id="modelConfidence">0</span>%</p>
+                </div>
+                <div class="col-xl-3 col-md-4">
+                  <p class="rul-label mb-1">Status</p>
+                  <span class="badge-status badge-status-ready" id="statusBadge">Healthy</span>
+                </div>
+                <div class="col-xl-3 col-md-12">
+                  <p class="small text-secondary mb-0" id="statusNarrative">Health trajectory is stable with moderate expected wear rate.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card panel-card mb-3">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="h5 mb-0">Degradation Curve</h2>
+                <span class="threshold-label">Failure Threshold</span>
+              </div>
+              <p class="small text-secondary mb-3">Historical condition index compared with model projection. The projected slope shows acceleration toward threshold.</p>
+              <div class="chart-wrapper chart-md">
+                <canvas id="degradationChart" aria-label="Historical and predicted degradation curve"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <section class="row g-3 mb-3">
+            <div class="col-xl-6">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <h2 class="h5 mb-2">Key Factors Affecting Degradation</h2>
+                  <p class="small text-secondary mb-3">Contribution share from dominant stressors.</p>
+                  <div class="chart-wrapper chart-sm">
+                    <canvas id="factorsChart" aria-label="Root cause contribution percentages"></canvas>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-xl-6">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <h2 class="h5 mb-2">Operational Usage Pattern</h2>
+                  <p class="small text-secondary mb-3">Usage behavior over time with abnormal spikes highlighted.</p>
+                  <div class="chart-wrapper chart-sm">
+                    <canvas id="usageChart" aria-label="Operational usage over time"></canvas>
+                  </div>
+                  <div class="usage-note mt-3" id="usageObservation"></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="row g-3">
+            <div class="col-xl-8">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <h2 class="h5 mb-3">Maintenance Behavior vs Similar Assets</h2>
+                  <div class="row g-2">
+                    <div class="col-md-4">
+                      <div class="metric-box">
+                        <p class="metric-label mb-1">Last Maintenance</p>
+                        <p class="metric-value mb-0" id="lastMaintenance">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="metric-box">
+                        <p class="metric-label mb-1">Avg Interval (Peer)</p>
+                        <p class="metric-value mb-0" id="avgInterval">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="metric-box insight-box">
+                        <p class="metric-label mb-1">Fleet Insight</p>
+                        <p class="metric-value mb-0" id="maintenanceInsight">-</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-xl-4">
+              <article class="card panel-card h-100">
+                <div class="card-body">
+                  <h2 class="h5 mb-2">Cost Drivers</h2>
+                  <p class="small text-secondary mb-3">Maintenance spend by component type.</p>
+                  <div class="chart-wrapper chart-sm">
+                    <canvas id="costChart" aria-label="Cost driver composition"></canvas>
+                  </div>
+                  <p class="small fw-semibold mb-0 mt-2" id="costHighlight">-</p>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="rul_modelling.js"></script>
+</body>
+</html>
